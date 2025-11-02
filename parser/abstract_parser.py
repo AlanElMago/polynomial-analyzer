@@ -1,0 +1,35 @@
+import ply.yacc as yacc
+import ply.lex as lex
+
+from abc import ABC, abstractmethod
+from sys import stderr
+from typing import Any, List
+
+class AbstractParser(ABC):
+    def __init__(self, lexer: lex.Lexer, tokens: List[str]) -> None:
+        super().__init__()
+
+        self.lexer = lexer
+        self.tokens = tokens
+
+        self.parser: yacc.LRParser | None = None
+        self.ids = {}
+
+    def p_error(self, _):
+        print(f"Syntax error", file=stderr)
+
+    def get_parser(self) -> yacc.LRParser:
+        if self.parser == None:
+            raise RuntimeError("Parser not built. Use the 'build' class \
+                                method to create an instance.")
+
+        return self.parser
+
+    @abstractmethod
+    def parse(self, text: str) -> Any:
+        ...
+
+    @classmethod
+    @abstractmethod
+    def build(cls) -> 'AbstractParser':
+        ...
