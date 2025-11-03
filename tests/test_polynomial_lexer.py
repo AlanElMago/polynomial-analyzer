@@ -157,5 +157,24 @@ class TestExponentialFunction(unittest.TestCase):
         self.assertEqual(tokens[0].type, 'EXPONENTIAL')
         self.assertEqual(tokens[0].value, 'exp')
 
+class TestLogarithmicFunctions(unittest.TestCase):
+    def test_natural_log_function(self):
+        tokens = lexer.tokenize('ln')
+
+        self.assertEqual(tokens[0].type, 'NATURAL_LOG')
+        self.assertEqual(tokens[0].value, 'ln')
+
+    def test_log_base_2_function(self):
+        tokens = lexer.tokenize('log2')
+
+        self.assertEqual(tokens[0].type, 'LOG_BASE_2')
+        self.assertEqual(tokens[0].value, 'log2')
+
+    def test_log_base_10_function(self):
+        tokens = lexer.tokenize('log10')
+
+        self.assertEqual(tokens[0].type, 'LOG_BASE_10')
+        self.assertEqual(tokens[0].value, 'log10')
+
 if __name__ == '__main__':
     unittest.main()

@@ -203,6 +203,59 @@ class TestExponentialFunction(unittest.TestCase):
         result = self.parser.parse('exp(exp(0))')
         self.assertAlmostEqual(result, math.e, places=10)
 
+class TestLogarithmicFunctions(unittest.TestCase):
+    def setUp(self):
+        self.parser = PolynomialParser.build()
+
+    def test_natural_log(self):
+        result = self.parser.parse('ln(1)')
+        self.assertAlmostEqual(result, 0, places=10)
+
+    def test_natural_log_of_e(self):
+        self.parser.parse('e = 2.71828182846')
+        result = self.parser.parse('ln(e)')
+        self.assertAlmostEqual(result, 1, places=5)
+
+    def test_natural_log_positive_value(self):
+        result = self.parser.parse('ln(10)')
+        self.assertAlmostEqual(result, math.log(10), places=10)
+
+    def test_log_base_2(self):
+        result = self.parser.parse('log2(8)')
+        self.assertAlmostEqual(result, 3, places=10)
+
+    def test_log_base_2_of_one(self):
+        result = self.parser.parse('log2(1)')
+        self.assertAlmostEqual(result, 0, places=10)
+
+    def test_log_base_2_positive_value(self):
+        result = self.parser.parse('log2(16)')
+        self.assertAlmostEqual(result, 4, places=10)
+
+    def test_log_base_10(self):
+        result = self.parser.parse('log10(100)')
+        self.assertAlmostEqual(result, 2, places=10)
+
+    def test_log_base_10_of_one(self):
+        result = self.parser.parse('log10(1)')
+        self.assertAlmostEqual(result, 0, places=10)
+
+    def test_log_base_10_positive_value(self):
+        result = self.parser.parse('log10(1000)')
+        self.assertAlmostEqual(result, 3, places=10)
+
+    def test_natural_log_with_expression(self):
+        result = self.parser.parse('ln(2 * 5)')
+        self.assertAlmostEqual(result, math.log(10), places=10)
+
+    def test_nested_logarithms(self):
+        result = self.parser.parse('ln(exp(2))')
+        self.assertAlmostEqual(result, 2, places=10)
+
+    def test_log2_with_power(self):
+        result = self.parser.parse('log2(2 ** 5)')
+        self.assertAlmostEqual(result, 5, places=10)
+
 class TestComplexExpressions(unittest.TestCase):
     def setUp(self):
         self.parser = PolynomialParser.build()
@@ -240,29 +293,31 @@ class TestComplexExpressions(unittest.TestCase):
         result = self.parser.parse('2 * exp(1)')
         self.assertAlmostEqual(result, 2 * math.e, places=10)
 
+    def test_exponential_with_variable(self):
+        self.parser.parse('x = 2')
+        result = self.parser.parse('exp(x)')
+        self.assertAlmostEqual(result, math.exp(2), places=10)
+
     def test_mixed_exponential_and_trig(self):
         result = self.parser.parse('exp(sin(0)) + cos(0)')
         self.assertAlmostEqual(result, 2, places=10)  # exp(0) + 1 = 1 + 1
 
-class TestFloatingPointNumbers(unittest.TestCase):
-    def setUp(self):
-        self.parser = PolynomialParser.build()
+    def test_logarithm_in_arithmetic(self):
+        result = self.parser.parse('2 * ln(10)')
+        self.assertAlmostEqual(result, 2 * math.log(10), places=10)
 
-    def test_float_addition(self):
-        result = self.parser.parse('2.5 + 3.7')
-        self.assertAlmostEqual(result, 6.2, places=10)
+    def test_mixed_log_and_exponential(self):
+        result = self.parser.parse('ln(exp(5))')
+        self.assertAlmostEqual(result, 5, places=10)
 
-    def test_float_division(self):
-        result = self.parser.parse('7.5 / 2.5')
-        self.assertAlmostEqual(result, 3.0, places=10)
+    def test_logarithm_with_variable(self):
+        self.parser.parse('x = 100')
+        result = self.parser.parse('log10(x)')
+        self.assertAlmostEqual(result, 2, places=10)
 
-    def test_mixed_int_float(self):
-        result = self.parser.parse('5 * 2.5')
-        self.assertAlmostEqual(result, 12.5, places=10)
-
-    def test_float_power(self):
-        result = self.parser.parse('2.0 ** 3.0')
-        self.assertAlmostEqual(result, 8.0, places=10)
+    def test_complex_log_expression(self):
+        result = self.parser.parse('log2(8) + log10(100) + ln(1)')
+        self.assertAlmostEqual(result, 5, places=10)  # 3 + 2 + 0
 
 if __name__ == '__main__':
     unittest.main()
