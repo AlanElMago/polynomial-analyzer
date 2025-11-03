@@ -18,7 +18,9 @@ class PolynomialParser(AbstractParser):
 
     def p_assignment_expression(self, p):
         '''expression : ID EQUALS expression'''
-        self.ids[p[1]] = p[3]
+        result = p[3]
+        self.ids[p[1]] = result
+        p[0] = result
 
     def p_function_expression(self, p):
         '''expression : SINE LPAREN expression RPAREN
