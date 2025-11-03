@@ -35,6 +35,25 @@ class TestArithmeticOperators(unittest.TestCase):
         self.assertEqual(tokens[0].type, 'POWER')
         self.assertEqual(tokens[0].value, '**')
 
+class TestGroupingSymbols(unittest.TestCase):
+    def test_left_parenthesis(self):
+        tokens = lexer.tokenize('(')
+
+        self.assertEqual(tokens[0].type, 'LPAREN')
+        self.assertEqual(tokens[0].value, '(')
+
+    def test_right_parenthesis(self):
+        tokens = lexer.tokenize(')')
+
+        self.assertEqual(tokens[0].type, 'RPAREN')
+        self.assertEqual(tokens[0].value, ')')
+
+    def test_vertical_bar(self):
+        tokens = lexer.tokenize('|')
+
+        self.assertEqual(tokens[0].type, 'VERT')
+        self.assertEqual(tokens[0].value, '|')
+
 class TestIdTokens(unittest.TestCase):
     def test_id_beginning_with_lowercase(self):
         tokens = lexer.tokenize('var1')
