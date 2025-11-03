@@ -13,6 +13,9 @@ class PolynomialLexer(AbstractLexer):
         'acos': 'ARCCOSINE',
         'atan': 'ARCTANGENT',
         'exp': 'EXPONENTIAL',
+        'ln': 'NATURAL_LOG',
+        'log2': 'LOG_BASE_2',
+        'log10': 'LOG_BASE_10',
     }
 
     tokens: List[str] = [

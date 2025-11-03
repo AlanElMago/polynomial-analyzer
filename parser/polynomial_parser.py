@@ -30,6 +30,9 @@ class PolynomialParser(AbstractParser):
                       | ARCCOSINE LPAREN expression RPAREN
                       | ARCTANGENT LPAREN expression RPAREN
                       | EXPONENTIAL LPAREN expression RPAREN
+                      | NATURAL_LOG LPAREN expression RPAREN
+                      | LOG_BASE_2 LPAREN expression RPAREN
+                      | LOG_BASE_10 LPAREN expression RPAREN
         '''
         match p[1]:
             case 'sin':
@@ -46,6 +49,12 @@ class PolynomialParser(AbstractParser):
                 p[0] = math.atan(p[3])
             case 'exp':
                 p[0] = math.exp(p[3])
+            case 'ln':
+                p[0] = math.log(p[3])
+            case 'log2':
+                p[0] = math.log2(p[3])
+            case 'log10':
+                p[0] = math.log10(p[3])
 
     def p_unary_expression(self, p):
         '''expression : MINUS expression'''
