@@ -29,6 +29,12 @@ class TestArithmeticOperators(unittest.TestCase):
         self.assertEqual(tokens[0].type, 'DIVIDE')
         self.assertEqual(tokens[0].value, '/')
 
+    def test_power_operator(self):
+        tokens = lexer.tokenize('**')
+
+        self.assertEqual(tokens[0].type, 'POWER')
+        self.assertEqual(tokens[0].value, '**')
+
 class TestIdTokens(unittest.TestCase):
     def test_id_beginning_with_lowercase(self):
         tokens = lexer.tokenize('var1')
