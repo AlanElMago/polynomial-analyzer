@@ -100,5 +100,42 @@ class TestNumberTokens(unittest.TestCase):
         self.assertEqual(tokens[1].type, 'NUMBER')
         self.assertEqual(tokens[1].value, 0.001)
 
+class TestTrigonometricFunctions(unittest.TestCase):
+    def test_sine_function(self):
+        tokens = lexer.tokenize('sin')
+
+        self.assertEqual(tokens[0].type, 'SINE')
+        self.assertEqual(tokens[0].value, 'sin')
+
+    def test_cosine_function(self):
+        tokens = lexer.tokenize('cos')
+
+        self.assertEqual(tokens[0].type, 'COSINE')
+        self.assertEqual(tokens[0].value, 'cos')
+
+    def test_tangent_function(self):
+        tokens = lexer.tokenize('tan')
+
+        self.assertEqual(tokens[0].type, 'TANGENT')
+        self.assertEqual(tokens[0].value, 'tan')
+
+    def test_arcsine_function(self):
+        tokens = lexer.tokenize('asin')
+
+        self.assertEqual(tokens[0].type, 'ARCSINE')
+        self.assertEqual(tokens[0].value, 'asin')
+
+    def test_arccosine_function(self):
+        tokens = lexer.tokenize('acos')
+
+        self.assertEqual(tokens[0].type, 'ARCCOSINE')
+        self.assertEqual(tokens[0].value, 'acos')
+
+    def test_arctangent_function(self):
+        tokens = lexer.tokenize('atan')
+
+        self.assertEqual(tokens[0].type, 'ARCTANGENT')
+        self.assertEqual(tokens[0].value, 'atan')
+
 if __name__ == '__main__':
     unittest.main()
