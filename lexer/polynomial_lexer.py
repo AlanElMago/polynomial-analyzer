@@ -12,6 +12,7 @@ class PolynomialLexer(AbstractLexer):
         'asin': 'ARCSINE',
         'acos': 'ARCCOSINE',
         'atan': 'ARCTANGENT',
+        'exp': 'EXPONENTIAL',
     }
 
     tokens: List[str] = [
