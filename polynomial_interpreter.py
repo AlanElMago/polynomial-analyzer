@@ -1,4 +1,5 @@
 from parser.polynomial_parser import PolynomialParser
+from sys import stderr
 from typing import Any
 
 class PolynomialInterpreter:
@@ -9,8 +10,17 @@ class PolynomialInterpreter:
     def get_text(self) -> str:
         return self.text
 
-    def evaulate(self, **kwargs) -> Any:
+    def evaulate(self, **kwargs) -> Any | None:
         for key, value in kwargs.items():
             self.parser.ids[key] = value
 
-        return self.parser.parse(self.text)
+        result = None
+
+        try:
+            result = self.parser.parse(self.text)
+        except ZeroDivisionError:
+            print('Error: division by zero', file=stderr)
+        except ValueError:
+            print('Error: undefined result', file=stderr)
+
+        return result
