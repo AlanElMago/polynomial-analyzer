@@ -22,6 +22,7 @@ class PolynomialLexer(AbstractLexer):
         'DIVIDE',
         'LPAREN',
         'RPAREN',
+        'VERT',
     ] + list(reserved.values())
 
     t_POWER  = r'\*\*'
@@ -32,6 +33,7 @@ class PolynomialLexer(AbstractLexer):
     t_DIVIDE = r'\/'
     t_LPAREN = r'\('
     t_RPAREN = r'\)'
+    t_VERT   = r'\|'
 
     def t_ID(self, t) -> lex.LexToken:
         r'[a-zA-Z_][a-zA-Z0-9]*'

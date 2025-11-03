@@ -52,9 +52,15 @@ class PolynomialParser(AbstractParser):
             case '**':
                 p[0] = p[1] ** p[3]
 
-    def p_parenthesis_expression(self, p):
-        '''expression : LPAREN expression RPAREN'''
-        p[0] = p[2]
+    def p_group_expression(self, p):
+        '''expression : LPAREN expression RPAREN
+                      | VERT expression VERT
+        '''
+        match p[1]:
+            case '(':
+                p[0] = p[2]
+            case '|':
+                p[0] = abs(p[2])
 
     def p_id_expression(self, p):
         '''expression : ID'''
