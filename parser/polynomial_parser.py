@@ -33,6 +33,10 @@ class PolynomialParser(AbstractParser):
             case 'tan':
                 p[0] = math.tan(p[3])
 
+    def p_unary_expression(self, p):
+        '''expression : MINUS expression'''
+        p[0] = -p[2]
+
     def p_binary_expression(self, p):
         '''expression : expression PLUS expression
                       | expression MINUS expression

@@ -43,7 +43,7 @@ class PolynomialLexer(AbstractLexer):
         return t
 
     def t_NUMBER(self, t) -> lex.LexToken:
-        r'\-?\d+(\.\d+)?'
+        r'\d+(\.\d+)?'
 
         try:
             t.value = float(t.value) if '.' in t.value else int(t.value)
