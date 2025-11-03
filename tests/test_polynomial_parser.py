@@ -256,6 +256,43 @@ class TestLogarithmicFunctions(unittest.TestCase):
         result = self.parser.parse('log2(2 ** 5)')
         self.assertAlmostEqual(result, 5, places=10)
 
+class TestSquareRootFunction(unittest.TestCase):
+    def setUp(self):
+        self.parser = PolynomialParser.build()
+
+    def test_square_root_perfect_square(self):
+        result = self.parser.parse('sqrt(4)')
+        self.assertAlmostEqual(result, 2, places=10)
+
+    def test_square_root_of_zero(self):
+        result = self.parser.parse('sqrt(0)')
+        self.assertAlmostEqual(result, 0, places=10)
+
+    def test_square_root_of_one(self):
+        result = self.parser.parse('sqrt(1)')
+        self.assertAlmostEqual(result, 1, places=10)
+
+    def test_square_root_non_perfect_square(self):
+        result = self.parser.parse('sqrt(2)')
+        self.assertAlmostEqual(result, math.sqrt(2), places=10)
+
+    def test_square_root_large_number(self):
+        result = self.parser.parse('sqrt(100)')
+        self.assertAlmostEqual(result, 10, places=10)
+
+    def test_square_root_with_expression(self):
+        result = self.parser.parse('sqrt(16 + 9)')
+        self.assertAlmostEqual(result, 5, places=10)
+
+    def test_nested_square_root(self):
+        result = self.parser.parse('sqrt(sqrt(16))')
+        self.assertAlmostEqual(result, 2, places=10)
+
+    def test_square_root_with_variable(self):
+        self.parser.parse('x = 9')
+        result = self.parser.parse('sqrt(x)')
+        self.assertAlmostEqual(result, 3, places=10)
+
 class TestComplexExpressions(unittest.TestCase):
     def setUp(self):
         self.parser = PolynomialParser.build()
@@ -318,6 +355,24 @@ class TestComplexExpressions(unittest.TestCase):
     def test_complex_log_expression(self):
         result = self.parser.parse('log2(8) + log10(100) + ln(1)')
         self.assertAlmostEqual(result, 5, places=10)  # 3 + 2 + 0
+
+    def test_square_root_in_arithmetic(self):
+        result = self.parser.parse('2 * sqrt(9)')
+        self.assertAlmostEqual(result, 6, places=10)
+
+    def test_square_root_with_power(self):
+        result = self.parser.parse('sqrt(4) ** 2')
+        self.assertAlmostEqual(result, 4, places=10)
+
+    def test_pythagorean_theorem(self):
+        self.parser.parse('a = 3')
+        self.parser.parse('b = 4')
+        result = self.parser.parse('sqrt(a ** 2 + b ** 2)')
+        self.assertAlmostEqual(result, 5, places=10)
+
+    def test_mixed_functions_with_sqrt(self):
+        result = self.parser.parse('sqrt(16) + ln(1) + exp(0)')
+        self.assertAlmostEqual(result, 5, places=10)  # 4 + 0 + 1
 
 if __name__ == '__main__':
     unittest.main()

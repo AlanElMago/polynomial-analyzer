@@ -176,5 +176,12 @@ class TestLogarithmicFunctions(unittest.TestCase):
         self.assertEqual(tokens[0].type, 'LOG_BASE_10')
         self.assertEqual(tokens[0].value, 'log10')
 
+class TestSquareRootFunction(unittest.TestCase):
+    def test_square_root_function(self):
+        tokens = lexer.tokenize('sqrt')
+
+        self.assertEqual(tokens[0].type, 'SQUARE_ROOT')
+        self.assertEqual(tokens[0].value, 'sqrt')
+
 if __name__ == '__main__':
     unittest.main()
