@@ -100,6 +100,13 @@ class TestNumberTokens(unittest.TestCase):
         self.assertEqual(tokens[1].type, 'NUMBER')
         self.assertEqual(tokens[1].value, 0.001)
 
+class TestOtherSymbols(unittest.TestCase):
+    def test_equals_symbol(self):
+        tokens = lexer.tokenize('=')
+
+        self.assertEqual(tokens[0].type, 'EQUALS')
+        self.assertEqual(tokens[0].value, '=')
+
 class TestTrigonometricFunctions(unittest.TestCase):
     def test_sine_function(self):
         tokens = lexer.tokenize('sin')
