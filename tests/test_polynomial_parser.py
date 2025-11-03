@@ -175,6 +175,34 @@ class TestTrigonometricFunctions(unittest.TestCase):
         result = self.parser.parse('sin(2 * 3)')
         self.assertAlmostEqual(result, math.sin(6), places=10)
 
+class TestExponentialFunction(unittest.TestCase):
+    def setUp(self):
+        self.parser = PolynomialParser.build()
+
+    def test_exponential(self):
+        result = self.parser.parse('exp(0)')
+        self.assertAlmostEqual(result, 1, places=10)
+
+    def test_exponential_with_one(self):
+        result = self.parser.parse('exp(1)')
+        self.assertAlmostEqual(result, math.e, places=10)
+
+    def test_exponential_with_positive_value(self):
+        result = self.parser.parse('exp(2)')
+        self.assertAlmostEqual(result, math.exp(2), places=10)
+
+    def test_exponential_with_negative_value(self):
+        result = self.parser.parse('exp(-1)')
+        self.assertAlmostEqual(result, math.exp(-1), places=10)
+
+    def test_exponential_with_expression(self):
+        result = self.parser.parse('exp(2 * 3)')
+        self.assertAlmostEqual(result, math.exp(6), places=10)
+
+    def test_nested_exponential(self):
+        result = self.parser.parse('exp(exp(0))')
+        self.assertAlmostEqual(result, math.e, places=10)
+
 class TestComplexExpressions(unittest.TestCase):
     def setUp(self):
         self.parser = PolynomialParser.build()
@@ -207,6 +235,14 @@ class TestComplexExpressions(unittest.TestCase):
         self.assertEqual(self.parser.ids['a'], 5)
         self.assertEqual(self.parser.ids['b'], 5)
         self.assertEqual(self.parser.ids['c'], 5)
+
+    def test_exponential_in_arithmetic(self):
+        result = self.parser.parse('2 * exp(1)')
+        self.assertAlmostEqual(result, 2 * math.e, places=10)
+
+    def test_mixed_exponential_and_trig(self):
+        result = self.parser.parse('exp(sin(0)) + cos(0)')
+        self.assertAlmostEqual(result, 2, places=10)  # exp(0) + 1 = 1 + 1
 
 class TestFloatingPointNumbers(unittest.TestCase):
     def setUp(self):

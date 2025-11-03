@@ -150,5 +150,12 @@ class TestTrigonometricFunctions(unittest.TestCase):
         self.assertEqual(tokens[0].type, 'ARCTANGENT')
         self.assertEqual(tokens[0].value, 'atan')
 
+class TestExponentialFunction(unittest.TestCase):
+    def test_exponential_function(self):
+        tokens = lexer.tokenize('exp')
+
+        self.assertEqual(tokens[0].type, 'EXPONENTIAL')
+        self.assertEqual(tokens[0].value, 'exp')
+
 if __name__ == '__main__':
     unittest.main()
