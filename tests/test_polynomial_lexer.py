@@ -73,6 +73,12 @@ class TestIdTokens(unittest.TestCase):
         self.assertEqual(tokens[0].type, 'ID')
         self.assertEqual(tokens[0].value, '_temp')
 
+    def test_id_with_two_underscores(self):
+        tokens = lexer.tokenize('my_var_2')
+
+        self.assertEqual(tokens[0].type, 'ID')
+        self.assertEqual(tokens[0].value, 'my_var_2')
+
 class TestNumberTokens(unittest.TestCase):
     def test_positive_integer(self):
         tokens = lexer.tokenize('123')

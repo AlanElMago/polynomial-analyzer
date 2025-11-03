@@ -39,7 +39,7 @@ class PolynomialLexer(AbstractLexer):
     t_VERT   = r'\|'
 
     def t_ID(self, t) -> lex.LexToken:
-        r'[a-zA-Z_][a-zA-Z0-9]*'
+        r'[a-zA-Z_][a-zA-Z0-9_]*'
 
         t.type = self.reserved.get(t.value, 'ID')
 
