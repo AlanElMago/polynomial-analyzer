@@ -1,6 +1,6 @@
-from lexer.polynomial_lexer import PolynomialLexer
-
 import unittest
+
+from lexer.polynomial_lexer import PolynomialLexer
 
 lexer = PolynomialLexer.build()
 

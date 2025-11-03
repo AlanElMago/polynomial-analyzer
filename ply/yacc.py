@@ -66,6 +66,8 @@ import types
 import sys
 import inspect
 
+from typing import Any
+
 #-----------------------------------------------------------------------------
 #                     === User configurable parameters ===
 #
@@ -176,7 +178,7 @@ class YaccProduction:
         self.lexer = None
         self.parser = None
 
-    def __getitem__(self, n):
+    def __getitem__(self, n) -> Any:
         if isinstance(n, slice):
             return [s.value for s in self.slice[n]]
         elif n >= 0:

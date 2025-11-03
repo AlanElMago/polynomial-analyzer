@@ -12,7 +12,7 @@ class AbstractLexer(ABC):
 
         self.lexer: lex.Lexer | None = None
 
-    def t_error(self, t):
+    def t_error(self, t) -> None:
         print(f"Illegal character '{t.value[0]}'", file=stderr)
         t.lexer.skip(1)
 

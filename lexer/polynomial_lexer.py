@@ -1,22 +1,22 @@
-import ply.lex as lex
-
-from lexer.abstract_lexer import AbstractLexer
 from sys import stderr
-from typing import List, Tuple
+from typing import Dict, List, Tuple
+
+import ply.lex as lex
+from lexer.abstract_lexer import AbstractLexer
 
 class PolynomialLexer(AbstractLexer):
-    reserved = {
-        'sin': 'SINE',
-        'cos': 'COSINE',
-        'tan': 'TANGENT',
-        'asin': 'ARCSINE',
-        'acos': 'ARCCOSINE',
-        'atan': 'ARCTANGENT',
-        'exp': 'EXPONENTIAL',
-        'ln': 'NATURAL_LOG',
-        'log2': 'LOG_BASE_2',
-        'log10': 'LOG_BASE_10',
-        'sqrt': 'SQUARE_ROOT',
+    reserved: Dict[str, str] = {
+        'sin'   : 'SINE',
+        'cos'   : 'COSINE',
+        'tan'   : 'TANGENT',
+        'asin'  : 'ARCSINE',
+        'acos'  : 'ARCCOSINE',
+        'atan'  : 'ARCTANGENT',
+        'exp'   : 'EXPONENTIAL',
+        'ln'    : 'NATURAL_LOG',
+        'log2'  : 'LOG_BASE_2',
+        'log10' : 'LOG_BASE_10',
+        'sqrt'  : 'SQUARE_ROOT',
     }
 
     tokens: List[str] = [
@@ -43,14 +43,14 @@ class PolynomialLexer(AbstractLexer):
     t_RPAREN = r'\)'
     t_VERT   = r'\|'
 
-    def t_ID(self, t) -> lex.LexToken:
+    def t_ID(self, t: lex.LexToken) -> lex.LexToken:
         r'[a-zA-Z_][a-zA-Z0-9_]*'
 
         t.type = self.reserved.get(t.value, 'ID')
 
         return t
 
-    def t_NUMBER(self, t) -> lex.LexToken:
+    def t_NUMBER(self, t: lex.LexToken) -> lex.LexToken:
         r'\d+(\.\d+)?'
 
         try:
@@ -61,7 +61,7 @@ class PolynomialLexer(AbstractLexer):
         return t
 
     def tokenize(self, text: str) -> Tuple[lex.LexToken, ...]:
-        lexer = self.get_lexer()
+        lexer: lex.Lexer = self.get_lexer()
         lexer.input(text)
 
         return tuple(token for token in lexer)

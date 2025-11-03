@@ -1,3 +1,6 @@
+from typing import Tuple
+
+import ply.lex as lex
 from lexer.polynomial_lexer import PolynomialLexer
 
 def main() -> None:
@@ -13,7 +16,7 @@ def main() -> None:
             print('KeyboardInterrupt')
             break
 
-        tokens = lexer.tokenize(text)
+        tokens: Tuple[lex.LexToken, ...] = lexer.tokenize(text)
 
         if tokens is not None:
             print(tokens)

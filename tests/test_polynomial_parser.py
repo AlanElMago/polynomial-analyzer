@@ -1,7 +1,7 @@
-from parser.polynomial_parser import PolynomialParser
-
-import unittest
 import math
+import unittest
+
+from parser.polynomial_parser import PolynomialParser
 
 class TestBasicArithmetic(unittest.TestCase):
     def setUp(self):

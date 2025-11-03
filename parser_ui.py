@@ -1,9 +1,11 @@
+from typing import Any
+
 from parser.polynomial_parser import PolynomialParser
 
 def main() -> None:
     parser = PolynomialParser.build()
-    text = ''
-    result = None
+    text: str = ''
+    result: Any | None = None
 
     while True:
         try:
@@ -24,8 +26,7 @@ def main() -> None:
             print('Division by zero')
             continue
 
-        if result is not None:
-            print(result)
+        print(result)
 
 if __name__ == '__main__':
     main()

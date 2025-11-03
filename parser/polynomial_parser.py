@@ -1,9 +1,10 @@
 import math
-import ply.yacc as yacc
+from typing import Any, List, Tuple
 
+import ply.lex as lex
+import ply.yacc as yacc
 from parser.abstract_parser import AbstractParser
 from lexer.polynomial_lexer import PolynomialLexer
-from typing import Any, Tuple
 
 class PolynomialParser(AbstractParser):
     precedence: Tuple[Tuple[str, ...], ...] = (
@@ -16,13 +17,13 @@ class PolynomialParser(AbstractParser):
     def __init__(self, lexer, tokens) -> None:
         super().__init__(lexer, tokens)
 
-    def p_assignment_expression(self, p):
+    def p_assignment_expression(self, p: yacc.YaccProduction) -> None:
         '''expression : ID EQUALS expression'''
         result = p[3]
         self.ids[p[1]] = result
         p[0] = result
 
-    def p_function_expression(self, p):
+    def p_function_expression(self, p: yacc.YaccProduction) -> None:
         '''expression : SINE LPAREN expression RPAREN
                       | COSINE LPAREN expression RPAREN
                       | TANGENT LPAREN expression RPAREN
@@ -59,11 +60,11 @@ class PolynomialParser(AbstractParser):
             case 'sqrt':
                 p[0] = math.sqrt(p[3])
 
-    def p_unary_expression(self, p):
+    def p_unary_expression(self, p: yacc.YaccProduction) -> None:
         '''expression : MINUS expression'''
         p[0] = -p[2]
 
-    def p_binary_expression(self, p):
+    def p_binary_expression(self, p: yacc.YaccProduction) -> None:
         '''expression : expression PLUS expression
                       | expression MINUS expression
                       | expression TIMES expression
@@ -82,7 +83,7 @@ class PolynomialParser(AbstractParser):
             case '**':
                 p[0] = p[1] ** p[3]
 
-    def p_group_expression(self, p):
+    def p_group_expression(self, p: yacc.YaccProduction) -> None:
         '''expression : LPAREN expression RPAREN
                       | VERT expression VERT
         '''
@@ -92,12 +93,12 @@ class PolynomialParser(AbstractParser):
             case '|':
                 p[0] = abs(p[2])
 
-    def p_id_expression(self, p):
+    def p_id_expression(self, p: yacc.YaccProduction) -> None:
         '''expression : ID'''
         try:
             p[0] = self.ids[p[1]]
         except:
-            text = input(f'{p[1]} = ')
+            text: str = input(f'{p[1]} = ')
 
             sub_parser = PolynomialParser.build()
             sub_parser.ids = self.ids
@@ -105,7 +106,7 @@ class PolynomialParser(AbstractParser):
 
             self.ids[p[1]] = p[0]
 
-    def p_number_expression(self, p):
+    def p_number_expression(self, p: yacc.YaccProduction) -> None:
         '''expression : NUMBER'''
         p[0] = p[1]
 
@@ -118,8 +119,8 @@ class PolynomialParser(AbstractParser):
     def build(cls, **kwargs) -> 'PolynomialParser':
         polynomial_lexer = PolynomialLexer.build(**kwargs)
 
-        lexer = polynomial_lexer.get_lexer()
-        tokens = polynomial_lexer.tokens
+        lexer: lex.Lexer = polynomial_lexer.get_lexer()
+        tokens: List[str] = polynomial_lexer.tokens
 
         polynomial_parser = PolynomialParser(lexer, tokens)
         polynomial_parser.parser = yacc.yacc(module=polynomial_parser)

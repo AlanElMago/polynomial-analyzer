@@ -1,9 +1,9 @@
-import ply.yacc as yacc
-import ply.lex as lex
-
 from abc import ABC, abstractmethod
 from sys import stderr
-from typing import Any, List
+from typing import Any, Dict, List
+
+import ply.yacc as yacc
+import ply.lex as lex
 
 class AbstractParser(ABC):
     def __init__(self, lexer: lex.Lexer, tokens: List[str]) -> None:
@@ -13,9 +13,9 @@ class AbstractParser(ABC):
         self.tokens = tokens
 
         self.parser: yacc.LRParser | None = None
-        self.ids = {}
+        self.ids: Dict[str, Any] = {}
 
-    def p_error(self, _):
+    def p_error(self, _) -> None:
         print(f"Syntax error", file=stderr)
 
     def get_parser(self) -> yacc.LRParser:

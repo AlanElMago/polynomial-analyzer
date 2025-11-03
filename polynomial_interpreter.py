@@ -1,6 +1,7 @@
-from parser.polynomial_parser import PolynomialParser
 from sys import stderr
 from typing import Any
+
+from parser.polynomial_parser import PolynomialParser
 
 class PolynomialInterpreter:
     def __init__(self, text: str) -> None:
@@ -14,7 +15,7 @@ class PolynomialInterpreter:
         for key, value in kwargs.items():
             self.parser.ids[key] = value
 
-        result = None
+        result: Any | None = None
 
         try:
             result = self.parser.parse(self.text)
