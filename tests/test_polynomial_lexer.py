@@ -58,8 +58,9 @@ class TestNumberTokens(unittest.TestCase):
     def test_negative_integer(self):
         tokens = lexer.tokenize('-456')
 
-        self.assertEqual(tokens[0].type, 'NUMBER')
-        self.assertEqual(tokens[0].value, -456)
+        self.assertEqual(tokens[0].type, 'MINUS')
+        self.assertEqual(tokens[1].type, 'NUMBER')
+        self.assertEqual(tokens[1].value, 456)
 
     def test_positive_real(self):
         tokens = lexer.tokenize('3.14')
@@ -70,8 +71,9 @@ class TestNumberTokens(unittest.TestCase):
     def test_negative_real(self):
         tokens = lexer.tokenize('-0.001')
 
-        self.assertEqual(tokens[0].type, 'NUMBER')
-        self.assertEqual(tokens[0].value, -0.001)
+        self.assertEqual(tokens[0].type, 'MINUS')
+        self.assertEqual(tokens[1].type, 'NUMBER')
+        self.assertEqual(tokens[1].value, 0.001)
 
 if __name__ == '__main__':
     unittest.main()
