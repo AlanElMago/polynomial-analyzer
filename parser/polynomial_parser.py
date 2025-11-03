@@ -24,6 +24,9 @@ class PolynomialParser(AbstractParser):
         '''expression : SINE LPAREN expression RPAREN
                       | COSINE LPAREN expression RPAREN
                       | TANGENT LPAREN expression RPAREN
+                      | ARCSINE LPAREN expression RPAREN
+                      | ARCCOSINE LPAREN expression RPAREN
+                      | ARCTANGENT LPAREN expression RPAREN
         '''
         match p[1]:
             case 'sin':
@@ -32,6 +35,12 @@ class PolynomialParser(AbstractParser):
                 p[0] = math.cos(p[3])
             case 'tan':
                 p[0] = math.tan(p[3])
+            case 'asin':
+                p[0] = math.asin(p[3])
+            case 'acos':
+                p[0] = math.acos(p[3])
+            case 'atan':
+                p[0] = math.atan(p[3])
 
     def p_unary_expression(self, p):
         '''expression : MINUS expression'''

@@ -9,6 +9,9 @@ class PolynomialLexer(AbstractLexer):
         'sin': 'SINE',
         'cos': 'COSINE',
         'tan': 'TANGENT',
+        'asin': 'ARCSINE',
+        'acos': 'ARCCOSINE',
+        'atan': 'ARCTANGENT',
     }
 
     tokens: List[str] = [
