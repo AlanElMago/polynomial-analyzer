@@ -33,6 +33,7 @@ class PolynomialParser(AbstractParser):
                       | NATURAL_LOG LPAREN expression RPAREN
                       | LOG_BASE_2 LPAREN expression RPAREN
                       | LOG_BASE_10 LPAREN expression RPAREN
+                      | SQUARE_ROOT LPAREN expression RPAREN
         '''
         match p[1]:
             case 'sin':
@@ -55,6 +56,8 @@ class PolynomialParser(AbstractParser):
                 p[0] = math.log2(p[3])
             case 'log10':
                 p[0] = math.log10(p[3])
+            case 'sqrt':
+                p[0] = math.sqrt(p[3])
 
     def p_unary_expression(self, p):
         '''expression : MINUS expression'''

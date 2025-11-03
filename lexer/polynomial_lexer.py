@@ -16,6 +16,7 @@ class PolynomialLexer(AbstractLexer):
         'ln': 'NATURAL_LOG',
         'log2': 'LOG_BASE_2',
         'log10': 'LOG_BASE_10',
+        'sqrt': 'SQUARE_ROOT',
     }
 
     tokens: List[str] = [
