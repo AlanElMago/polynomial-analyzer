@@ -17,6 +17,9 @@ def main() -> None:
             print('KeyboardInterrupt')
             break
 
+        if (text == 'exit'):
+            break
+
         try:
             result = parser.parse(text)
         except ValueError:
