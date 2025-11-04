@@ -61,6 +61,7 @@ class LexToken(object):
     value: Any
     lineno: int
     lexpos: int
+    lexer: 'Lexer'
 
     def __repr__(self):
         return f'LexToken({self.type},{self.value!r},{self.lineno},{self.lexpos})'
