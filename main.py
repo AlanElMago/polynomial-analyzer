@@ -1,6 +1,6 @@
 from typing import Any
 
-from polynomial_interpreter import PolynomialInterpreter
+from interpreter.polynomial_interpreter import PolynomialInterpreter
 
 def main() -> None:
     p = PolynomialInterpreter('3.58*x**5 + 6.28*x**2*y*z + x*y*z**3 + 3')
