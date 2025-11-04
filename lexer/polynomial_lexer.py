@@ -5,6 +5,28 @@ import ply.lex as lex
 from lexer.abstract_lexer import AbstractLexer
 
 class PolynomialLexer(AbstractLexer):
+    """
+    Lexer for polynomial expressions.
+
+    Attributes
+    ----------
+    reserved : Dict[str, str]
+        A dictionary mapping reserved keywords to their token types.
+    tokens : List[str]
+        A list of names of all token types.
+
+    Notes
+    -----
+    Attributes and methods that begin with `t_` define token rules for the
+    underlying PLY lexer.
+
+    Examples
+    --------
+    >>> lexer = PolynomialLexer.build()
+    >>> lexer.tokenize('x + 2')
+    (LexToken(ID,'x',1,0), LexToken(PLUS,'+',1,2), LexToken(NUMBER,2,1,4))
+    """
+
     reserved: Dict[str, str] = {
         'sin'   : 'SINE',
         'cos'   : 'COSINE',
@@ -43,6 +65,21 @@ class PolynomialLexer(AbstractLexer):
     t_RPAREN = r'\)'
     t_VERT   = r'\|'
 
+    def __init__(self) -> None:
+        """
+        Initialize a PolynomialLexer instance.
+
+        .. warning::
+            Do not instantiate this class directly. Use the `build` class
+            method instead to properly initialize a PolynomialLexer.
+
+        See Also
+        --------
+        PolynomialLexer.build : Preferred method for creating a PolynomialLexer
+            instance.
+        """
+        super().__init__()
+
     def t_ID(self, t: lex.LexToken) -> lex.LexToken:
         r'[a-zA-Z_][a-zA-Z0-9_]*'
 
@@ -68,6 +105,23 @@ class PolynomialLexer(AbstractLexer):
 
     @classmethod
     def build(cls, **kwargs) -> 'PolynomialLexer':
+        """
+        Build and return an instance of the PolynomialLexer.
+
+        This is the preferred way to create a PolynomialLexer instance, as it
+        properly initializes the underlying PLY lexer.
+
+        Parameters
+        ----------
+        **kwargs
+            Additional keyword arguments to pass to the PLY lexer used by the
+            PolynomialLexer.
+    
+        Returns
+        -------
+        PolynomialLexer
+            An instance of PolynomialLexer.
+        """
         polynomial_lexer = PolynomialLexer()
         polynomial_lexer.lexer = lex.lex(module=polynomial_lexer, **kwargs)
 

@@ -7,14 +7,56 @@ from parser.abstract_parser import AbstractParser
 from lexer.polynomial_lexer import PolynomialLexer
 
 class PolynomialParser(AbstractParser):
+    """
+    Parser for polynomial expressions.
+
+    Attributes
+    ----------
+    precedence : Tuple[Tuple[str, ...], ...]
+        A tuple defining the precedence and associativity of operators.
+        Operators with the highest precedence are evaluated first.
+
+    Notes
+    -----
+    Attributes and methods that begin with `p_` define production rules for the
+    underlying PLY parser.
+
+    Examples
+    --------
+    >>> parser = PolynomialParser.build()
+    >>> parser.parse('x = 2 + 3')
+    5
+    >>> parser.parse('x * x')
+    25
+    """
+
     precedence: Tuple[Tuple[str, ...], ...] = (
-        ('right', 'EQUALS'),
-        ('left', 'PLUS', 'MINUS'),
-        ('left', 'TIMES', 'DIVIDE'),
-        ('right', 'POWER'),
+        ('right', 'EQUALS'),         # associativity right, precedence = 0
+        ('left', 'PLUS', 'MINUS'),   # associativity left,  precedence = 1
+        ('left', 'TIMES', 'DIVIDE'), # associativity left,  precedence = 2
+        ('right', 'POWER'),          # associativity right, precedence = 3
     )
 
-    def __init__(self, lexer, tokens) -> None:
+    def __init__(self, lexer: lex.Lexer, tokens: List[str]) -> None:
+        """
+        Initialize a PolynomialParser instance.
+
+        Parameters
+        ----------
+        lexer : lex.Lexer
+            The PLY lexer instance used by the PolynomialParser.
+        tokens : List[str]
+            A list of names of all token types.       
+
+        .. warning::
+            Do not instantiate this class directly. Use the `build` class
+            method instead to properly initialize a PolynomialParser.
+
+        See Also
+        --------
+        PolynomialParser.build : Preferred method for creating a
+            PolynomialParser instance.
+        """
         super().__init__(lexer, tokens)
 
     def p_assignment_expression(self, p: yacc.YaccProduction) -> None:
@@ -111,12 +153,49 @@ class PolynomialParser(AbstractParser):
         p[0] = p[1]
 
     def parse(self, text: str) -> Any:
+        """
+        Parse the input text.
+
+        Parameters
+        ----------
+        text : str
+            The input text to be parsed.
+
+        Returns
+        -------
+        Any
+            The result of parsing the input text.
+
+        Raises
+        ------
+        ValueError
+            If the result of the parsed expression is undefined.
+        DivisionByZeroError
+            If a division by zero occurs in the parsed expression.
+        """
         parser = self.get_parser()
 
         return parser.parse(input=text, lexer=self.lexer)
 
     @classmethod
     def build(cls, **kwargs) -> 'PolynomialParser':
+        """
+        Build and return an instance of the PolynomialParser.
+
+        This is the preferred way to create a PolynomialParser instance, as it
+        properly initializes the underlying PLY parser.
+
+        Parameters
+        ----------
+        **kwargs
+            Additional keyword arguments to pass to the PLY lexer used by the
+            PolynomialParser
+
+        Returns
+        -------
+        PolynomialParser
+            An instance of PolynomialParser.
+        """
         polynomial_lexer = PolynomialLexer.build(**kwargs)
 
         lexer: lex.Lexer = polynomial_lexer.get_lexer()
